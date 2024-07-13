@@ -3,7 +3,7 @@ name: Deploy Angular App to GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main  # Cambia esto si tu rama principal es diferente
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # O la versión que estés usando
+          node-version: '16'  # O la versión que uses
 
       - name: Install dependencies
         run: npm install
@@ -24,8 +24,12 @@ jobs:
       - name: Build the app
         run: npm run build -- --configuration production
 
+      - name: Create .nojekyll file
+        run: touch ./dist/arquetipo/.nojekyll
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/arquetipo  # Cambia esto a tu carpeta de salida
+          publish_dir: ./dist/arquetipo
+          publish_branch: gh-pages  # Asegúrate de especificar la rama
